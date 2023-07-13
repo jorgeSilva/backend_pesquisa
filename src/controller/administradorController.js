@@ -37,6 +37,7 @@ class AdministradorController{
     const adm = await Administrador.create({
       nome,
       cpf,
+      categoria: 'Administrador',
       senha: passwordHash
     })
     try{
