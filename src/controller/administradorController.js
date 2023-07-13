@@ -47,6 +47,45 @@ class AdministradorController{
       res.status(500).json({error})
     }
   }
+
+  async login(req, res){
+    const schema = Yup.object().shape({
+      cpf: Yup.string().required(),
+      senha: Yup.string().required()
+    })
+
+    const { cpf, senha } = req.body
+
+    if(!(await schema.isValid(req.body))){
+      return res.status(400).json({error:'Informe email e senha.'})
+    }
+
+    const adm = await Administrador.findOne({cpf: cpf})
+
+    if(!adm){
+      return res.status(400).json({error: 'Administrador não encontrado'})
+    }
+
+    const checkPassword = await bcrypt.compare(senha, adm.senha)
+
+    if(!checkPassword){
+      return res.status(400).json({error: 'Senha inválida'})
+    }
+
+    try{
+      const secret = process.env.SECRET
+      const token = jwt.sign(
+        {
+          id: adm._id
+        },
+        secret
+      )
+
+      res.status(200).json({adm, token})
+    }catch(error){
+      res.status(500).json(error)
+    }
+  }
 }
 
 module.exports = new AdministradorController()
