@@ -66,7 +66,7 @@ class EntrevistaController{
 
     await Entrevista.find({
       fkCandidato:{'$eq':candidatoExist}
-    }).then(r => res.status(200).json(r)).catch(e => res.status(400).json(e))
+    }).populate('fkCandidato').populate('fkPergunta').then(r => res.status(200).json(r)).catch(e => res.status(400).json(e))
   }
 }
 
