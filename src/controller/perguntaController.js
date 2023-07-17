@@ -34,6 +34,22 @@ class PerguntaController {
       res.status(201).json({error})
     }
   }
+
+  async index(req, res){
+    const { fkCandidato } = req.params
+
+    const candidatoExist = await Candidato.findOne({
+      cpf: {'$eq': fkCandidato}
+    })
+
+    if(!candidatoExist){
+      return res.status(400).json({error: 'Candidato não encontrado.'})
+    }
+    
+    await Pergunta.find({
+      fkCandidato:{'$eq':candidatoExist}
+    }).then(r => res.status(200).json(r)).catch(error => res.status(400).json(error))
+  }
 }
 
 module.exports = new PerguntaController()
