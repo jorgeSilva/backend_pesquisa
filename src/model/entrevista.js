@@ -10,6 +10,10 @@ const EntrevistaModel = new Schema({
   fkPergunta: {
     type: Schema.Types.ObjectId,
     ref: 'Pergunta'
+  },
+  fkCandidato: {
+    type: Schema.Types.ObjectId,
+    ref: 'Candidato'
   }
 })
 
