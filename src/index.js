@@ -10,12 +10,16 @@ const candidatoRoute = require('./routes/candidatoRoute')
 const entrevistadorRoute = require('./routes/entrevistadorRoute')
 const perguntaRoute = require('./routes/perguntaRoute')
 const respostaRoute = require('./routes/respostaRoute')
+const entrevistaRoute = require('./routes/entrevistaRoute')
+
 
 server.use(admRoute)
 server.use(candidatoRoute)
 server.use(entrevistadorRoute)
 server.use(perguntaRoute)
 server.use(respostaRoute)
+server.use(entrevistaRoute)
+
 
 server.listen(3333, () => {
   console.log('SERVIDOR FUNCIONANDO!');
