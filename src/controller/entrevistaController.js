@@ -3,7 +3,7 @@ const Resposta = require('../model/resposta')
 const Pergunta = require('../model/pergunta')
 const Entrevista = require('../model/entrevista')
 const Candidato = require('../model/candidato')
-
+const Entrevistador = require('../model/entrevistador')
 class EntrevistaController{
   async store(req, res){
     const schema = Yup.object().shape({
@@ -11,10 +11,11 @@ class EntrevistaController{
       anonimo: Yup.boolean().required(),
       resposta: Yup.string().required(),
       fkPergunta: Yup.string().required(),
-      fkCandidato: Yup.string().required()
+      fkCandidato: Yup.string().required(),
+      fkEntrevistador: Yup.string().required()
     })
 
-    const { rua, anonimo, numeroCasa, nomeEntrevistado, resposta, fkPergunta, fkCandidato } = req.body
+    const { rua, anonimo, numeroCasa, nomeEntrevistado, resposta, fkPergunta, fkCandidato, fkEntrevistador } = req.body
 
     if(!(await schema.isValid(req.body))){
       return res.status(400).json({erro: 'Falha na validação dos campos.'})
@@ -36,6 +37,14 @@ class EntrevistaController{
       return res.status(400).json({error: 'Pergunta não foi encontrada.'})
     }
 
+    const entrevistadorExist = await Entrevistador.findOne({
+      cpf:{'$eq':fkEntrevistador}
+    })
+
+    if(!entrevistadorExist){
+      return res.status(400).json({error: 'Entrevistador não foi encontrada.'})
+    }
+
     const resp = await Entrevista.create({
       rua,
       numeroCasa,
@@ -43,7 +52,8 @@ class EntrevistaController{
       nomeEntrevistado,
       resposta,
       fkPergunta: perguntaExist,
-      fkCandidato: candidatoExist
+      fkCandidato: candidatoExist,
+      fkEntrevistador: entrevistadorExist
     })
     
     try{
@@ -87,7 +97,7 @@ class EntrevistaController{
 
     await Entrevista.find({
       fkPergunta:{'$eq': perguntaExist}
-    }).populate('fkPergunta').then(r => res.status(400).json(r)).catch(e => res.status(400).json(e))
+    }).populate('fkPergunta').populate('fkEntrevistador').then(r => res.status(400).json(r)).catch(e => res.status(400).json(e))
   }
 }
 
