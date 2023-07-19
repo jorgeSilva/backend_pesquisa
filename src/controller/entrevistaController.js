@@ -29,7 +29,7 @@ class EntrevistaController{
     }
 
     const perguntaExist = await Pergunta.findOne({
-      pergunta:{'$eq':fkPergunta}
+      _id:{'$eq':fkPergunta}
     })
 
     if(!perguntaExist){
@@ -67,6 +67,27 @@ class EntrevistaController{
     await Entrevista.find({
       fkCandidato:{'$eq':candidatoExist}
     }).populate('fkCandidato').populate('fkPergunta').then(r => res.status(200).json(r)).catch(e => res.status(400).json(e))
+  }
+
+  async referentePergunta(req, res){
+    const { pergunta } =  req.body
+    const { fkCandidato } = req.params
+
+    const candidatoExist = await Candidato.findOne({
+      cpf: {'$eq': fkCandidato}
+    })
+
+    if(!candidatoExist){
+      return res.status(400).json({error: 'Candidato não encontrado.'})
+    }
+    
+    const perguntaExist = await Pergunta.findOne({
+      _id:{'$eq':pergunta}
+    }).then().catch(() => res.status(400).json({error: 'Pergunta não encontrada'}))
+
+    await Entrevista.find({
+      fkPergunta:{'$eq': perguntaExist}
+    }).then(r => res.status(400).json(r)).catch(e => res.status(400).json(e))
   }
 }
 
