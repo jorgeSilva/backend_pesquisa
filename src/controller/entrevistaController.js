@@ -99,6 +99,45 @@ class EntrevistaController{
       fkPergunta:{'$eq': perguntaExist}
     }).populate('fkPergunta').populate('fkEntrevistador').then(r => res.status(400).json(r)).catch(e => res.status(400).json(e))
   }
+
+  async referenteEntrevistador(req, res){
+    const { fkEntrevistador } = req.body
+    const { fkCandidato } = req.params
+
+    const candidatoExist = await Candidato.findOne({
+      cpf: {'$eq': fkCandidato}
+    })
+
+    if(!candidatoExist){
+      return res.status(400).json({error: 'Candidato não encontrado.'})
+    }
+
+    const entrevistadorExist =  await Entrevistador.find({
+      cpf:{'$eq':fkEntrevistador}
+    }).then().catch((e) => res.status(400).json(e))
+    
+    if(entrevistadorExist == null){
+      return res.status(400).json({error: 'Entrevistador não encontrado.'})
+    }
+
+    await Entrevista.find({
+      fkEntrevistador:entrevistadorExist
+    }).then(r => res.status(200).json(r)).catch(e => res.status(400).json(e))
+
+    // .then(r => res.status(200).json(fkEntrevistador)).catch(e => res.status(400).json(fkEntrevistador))
+
+   /*  const entrevistadorExist =  await Entrevistador.find({
+      cpf:{'$eq':fkEntrevistador}
+    }).then().catch((e) => res.status(400).json(e))
+
+    if(entrevistadorExist == null){
+      return res.status(400).json({error: 'Entrevistador não encontrado.'})
+    }
+
+    await Entrevista.find({
+      fkEntrevistador:{'$eq':entrevistadorExist}
+    }).then(r => res.status(200).json(r)).catch(e => res.status(400).json({error: e})) */
+  }
 }
 
 module.exports = new EntrevistaController()
