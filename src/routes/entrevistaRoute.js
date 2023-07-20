@@ -8,5 +8,6 @@ entrevistaRoute.post('/entrevista', EntrevistaController.store)
 entrevistaRoute.get('/entrevista/:fkCandidato', EntrevistaController.index)
 entrevistaRoute.get('/entrevista/pergunta/:fkCandidato', EntrevistaController.referentePergunta)
 entrevistaRoute.get('/entrevista/entrevistador/:fkCandidato', EntrevistaController.referenteEntrevistador)
+entrevistaRoute.get('/entrevista/entrevistado/:fkCandidato', EntrevistaController.referenteEntrevistado)
 
 module.exports = entrevistaRoute
