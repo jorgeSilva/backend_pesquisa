@@ -123,20 +123,6 @@ class EntrevistaController{
     await Entrevista.find({
       fkEntrevistador:entrevistadorExist
     }).then(r => res.status(200).json(r)).catch(e => res.status(400).json(e))
-
-    // .then(r => res.status(200).json(fkEntrevistador)).catch(e => res.status(400).json(fkEntrevistador))
-
-   /*  const entrevistadorExist =  await Entrevistador.find({
-      cpf:{'$eq':fkEntrevistador}
-    }).then().catch((e) => res.status(400).json(e))
-
-    if(entrevistadorExist == null){
-      return res.status(400).json({error: 'Entrevistador não encontrado.'})
-    }
-
-    await Entrevista.find({
-      fkEntrevistador:{'$eq':entrevistadorExist}
-    }).then(r => res.status(200).json(r)).catch(e => res.status(400).json({error: e})) */
   }
 }
 
