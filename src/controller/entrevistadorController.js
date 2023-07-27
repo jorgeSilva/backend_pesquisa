@@ -86,6 +86,18 @@ class EntrevistadorController{
       res.status(500).json(error)
     }
   }
+
+  async index(req, res){
+    const { _id } = req.params
+
+    const userExist = await Entrevistador.findById(_id, '-senha')
+
+    if(!userExist){
+      return res.status(400).json({error: 'Usuario não encontrado'})
+    }
+
+    res.status(200).json({userExist})
+  }
 }
 
 module.exports = new EntrevistadorController()
