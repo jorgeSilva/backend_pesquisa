@@ -19,3 +19,5 @@ const UserMiddleware = (req, res, next) => {
     res.status(400).json({error: 'Tokén invalido.'})
   }
 }
+
+module.exports = UserMiddleware
