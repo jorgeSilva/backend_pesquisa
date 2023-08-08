@@ -7,5 +7,6 @@ const UserMiddleware = require('../middleware/UserMiddleware')
 candidatoRoute.post('/candidato', CandidatoController.store)
 candidatoRoute.post('/candidato/login', CandidatoController.login)
 candidatoRoute.get('/candidato/:_id', UserMiddleware, CandidatoController.index)
+candidatoRoute.get('/candidato', CandidatoController.show)
 
 module.exports = candidatoRoute

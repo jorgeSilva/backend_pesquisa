@@ -98,6 +98,15 @@ class CandidatoController{
 
     res.status(200).json({userExist})
   }
+
+  async show(req, res){
+    const get = await Candidato.find()
+    try{
+      res.status(200).json(get)
+    }catch(e){
+      return res.status(400).json({error:e})
+    }
+  }
 }
 
 module.exports = new CandidatoController()
