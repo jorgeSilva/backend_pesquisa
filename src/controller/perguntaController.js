@@ -39,7 +39,7 @@ class PerguntaController {
     const { fkCandidato } = req.params
 
     const candidatoExist = await Candidato.findOne({
-      cpf: {'$eq': fkCandidato}
+      _id: {'$eq': fkCandidato}
     })
 
     if(!candidatoExist){
