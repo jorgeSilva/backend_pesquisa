@@ -1,6 +1,7 @@
 const Yup = require('yup')
 const Resposta = require('../model/resposta')
 const Pergunta = require('../model/pergunta')
+const Candidato = require('../model/candidato')
 
 class RespostaController {
   async store(req, res){
@@ -8,6 +9,8 @@ class RespostaController {
       resposta0: Yup.string().required(),
       fkPergunta: Yup.string().required()
     })
+
+    const {_id} = req.params
 
     const {
       resposta0,
@@ -27,8 +30,14 @@ class RespostaController {
       return res.status(400).json({erro: 'Falha na validação dos campos.'})
     }
 
+    const userExist = await Candidato.findById(_id)
+
+    if(!userExist){
+      return res.status(400).json({error: 'Cliente não foi encontrada.'})
+    }
+
     const perguntaExist = await Pergunta.findOne({
-      pergunta:{'$eq':fkPergunta}
+      _id:{'$eq':fkPergunta}
     })
 
     if(!perguntaExist){

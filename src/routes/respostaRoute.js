@@ -3,6 +3,6 @@ const respostaRoute = express.Router()
 
 const RespostaController = require('../controller/respostaController')
 
-respostaRoute.post('/resposta', RespostaController.store)
+respostaRoute.post('/resposta/:_id', RespostaController.store)
 
 module.exports = respostaRoute
