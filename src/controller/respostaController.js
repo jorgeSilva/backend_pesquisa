@@ -5,12 +5,20 @@ const Candidato = require('../model/candidato')
 
 class RespostaController {
   async store(req, res){
+    const {_id} = req.params
+
+    const userExist = await Candidato.findOne({
+      cpf: {'$eq': _id}
+    })
+
+    if(!userExist){
+      return res.status(400).json({error: 'Cliente não foi encontrada.'})
+    }
+
     const schema = Yup.object().shape({
       resposta0: Yup.string().required(),
       fkPergunta: Yup.string().required()
     })
-
-    const {_id} = req.params
 
     const {
       resposta0,
@@ -28,12 +36,6 @@ class RespostaController {
     
     if(!(await schema.isValid(req.body))){
       return res.status(400).json({erro: 'Falha na validação dos campos.'})
-    }
-
-    const userExist = await Candidato.findById(_id)
-
-    if(!userExist){
-      return res.status(400).json({error: 'Cliente não foi encontrada.'})
     }
 
     const perguntaExist = await Pergunta.findOne({
@@ -59,7 +61,8 @@ class RespostaController {
     })
 
     try{
-      await resp.save().then(r => res.status(201).json(r))
+      await resp.save()      
+      return res.status(201).json({msg: 'Resposta cadastrado com sucesso.'})
     }catch(error){
       res.status(201).json(error)
     }

@@ -29,7 +29,8 @@ class PerguntaController {
     })
 
     try{
-      await pg.save().then(r => res.status(201).json({msg:'Pergunta cadastrada com sucesso.'}))
+      await pg.save()
+      return res.status(201).json({msg: 'Pergunta cadastrada com sucesso.'})
     }catch(error){
       res.status(201).json({error})
     }
