@@ -8,7 +8,7 @@ class RespostaController {
     const {_id} = req.params
 
     const userExist = await Candidato.findOne({
-      cpf: {'$eq': _id}
+      _id: {'$eq': _id}
     })
 
     if(!userExist){
@@ -57,7 +57,8 @@ class RespostaController {
       resposta7,
       resposta8,
       resposta9,
-      fkPergunta: perguntaExist
+      fkPergunta: perguntaExist,
+      fkCandidato: userExist
     })
 
     try{
@@ -66,6 +67,20 @@ class RespostaController {
     }catch(error){
       res.status(201).json(error)
     }
+  }
+
+  async index(req, res){
+    const { _id } = req.params
+
+    const candidatoExist = await Candidato.findById(_id)
+
+    if(!candidatoExist){
+      return res.status(400).json({error: 'Candidato não encontrado.'})
+    }
+    
+    await Resposta.find({
+      fkCandidato:{'$eq': _id}
+    }).then(r => res.status(200).json(r)).catch(error => res.status(400).json(error))
   }
 }
 
