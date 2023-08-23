@@ -58,7 +58,7 @@ class EntrevistaController{
     
     try{
       await resp.save()
-      res.status(201).json({msg: 'Entrevista cadastrad com sucesso.'})
+      res.status(201).json({msg: 'Entrevista enviada com sucesso.'})
     }catch(error){
       res.status(201).json(error)
     }
