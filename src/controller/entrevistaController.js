@@ -26,7 +26,7 @@ class EntrevistaController{
     })
 
     if(!candidatoExist){
-      return res.status(400).json({error: 'Pergunta não foi encontrada.'})
+      return res.status(400).json({error: 'candidato não foi encontrado.'})
     }
 
     const perguntaExist = await Pergunta.findOne({
@@ -57,7 +57,8 @@ class EntrevistaController{
     })
     
     try{
-      await resp.save().then(r => res.status(201).json(r))
+      await resp.save()
+      res.status(201).json({msg: 'Entrevista cadastrad com sucesso.'})
     }catch(error){
       res.status(201).json(error)
     }
