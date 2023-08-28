@@ -146,6 +146,27 @@ class EntrevistaController{
       anonimo:{'$eq':anonimo}
     }).then(r => res.status(200).json(r)).catch(e => res.status(400).json(e)) 
   }
+
+  async referentePerguntaResposta(req, res){
+    const { fkCandidato, pergunta, resposta } = req.params
+
+    const candidatoExist = await Candidato.findOne({
+      cpf: {'$eq': fkCandidato}
+    })
+
+    if(!candidatoExist){
+      return res.status(400).json({error: 'Candidato não encontrado.'})
+    }
+
+    await Entrevista.find({
+      fkPergunta:{'$eq': pergunta},
+      resposta:{'$eq': resposta}
+    })
+    .populate('fkPergunta')
+    .populate('fkEntrevistador')
+    .then(r => res.status(200).json(r))
+    .catch(e => res.status(400).json(e))
+  }
 }
 
 module.exports = new EntrevistaController()

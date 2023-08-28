@@ -10,4 +10,6 @@ entrevistaRoute.get('/entrevista/pergunta/:fkCandidato/:pergunta', EntrevistaCon
 entrevistaRoute.get('/entrevista/entrevistador/:fkCandidato', EntrevistaController.referenteEntrevistador)
 entrevistaRoute.get('/entrevista/entrevistado/:fkCandidato', EntrevistaController.referenteEntrevistado)
 
+entrevistaRoute.get('/entrevista/resposta/:fkCandidato/:pergunta/:resposta', EntrevistaController.referentePerguntaResposta)
+
 module.exports = entrevistaRoute
