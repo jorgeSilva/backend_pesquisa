@@ -8,4 +8,6 @@ entrevistadorRoute.post('/entrevistador', EntrevistadorController.store)
 entrevistadorRoute.post('/entrevistador/login', EntrevistadorController.login)
 entrevistadorRoute.get('/entrevistador/:_id', UserMiddleware, EntrevistadorController.index)
 
+entrevistadorRoute.get('/entrevistadores', UserMiddleware, EntrevistadorController.show)
+
 module.exports = entrevistadorRoute
