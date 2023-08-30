@@ -171,6 +171,40 @@ class EntrevistaController{
     .then(r => res.status(200).json(r))
     .catch(e => res.status(400).json(e))
   }
+
+  async byCepBairro(req, res){
+    const { _id, cep, bairro } = req.params
+
+    const candidatoExist = await Candidato.findOne({
+      cpf: {'$eq': _id}
+    })
+
+    if(!candidatoExist){
+      return res.status(400).json({error:'Candidato não encontrado'})
+    }
+
+    const cepExist = await Entrevista.findOne({
+      cep:{'$eq':cep}
+    }) 
+
+    if(!cepExist){
+      return res.status(400).json({error:`CEP não existente: ${cep}`})
+    }
+
+    const bairroExist = await Entrevista.findOne({
+      bairro:{'$eq':bairro}
+    }) 
+
+    if(!bairroExist){
+      return res.status(400).json({error:`Bairro não encontrado: ${bairro}`})
+    }
+
+    await Entrevista.find({
+      bairro:{'$eq':bairro},
+      cep:{'$eq': cep}
+    }).populate('fkPergunta').then(r => res.status(200).json(r))
+    .catch(e => res.status(400).json(e))
+  }
 }
 
 module.exports = new EntrevistaController()

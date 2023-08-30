@@ -12,4 +12,6 @@ entrevistaRoute.get('/entrevista/entrevistado/:fkCandidato', EntrevistaControlle
 
 entrevistaRoute.get('/entrevista/resposta/:fkCandidato/:pergunta/:resposta', EntrevistaController.referentePerguntaResposta)
 
+entrevistaRoute.get('/entrevista/:_id/:bairro/:cep', EntrevistaController.byCepBairro)
+
 module.exports = entrevistaRoute
