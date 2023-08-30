@@ -8,6 +8,8 @@ class EntrevistaController{
   async store(req, res){
     const schema = Yup.object().shape({
       rua: Yup.string().required(),
+      bairro: Yup.string().required(),
+      cep: Yup.string().required(),
       anonimo: Yup.boolean().required(),
       resposta: Yup.string().required(),
       fkPergunta: Yup.string().required(),
@@ -15,7 +17,7 @@ class EntrevistaController{
       fkEntrevistador: Yup.string().required()
     })
 
-    const { rua, anonimo, numeroCasa, nomeEntrevistado, resposta, fkPergunta, fkCandidato, fkEntrevistador } = req.body
+    const { rua, bairro, cep, anonimo, numeroCasa, nomeEntrevistado, resposta, fkPergunta, fkCandidato, fkEntrevistador } = req.body
 
     if(!(await schema.isValid(req.body))){
       return res.status(400).json({erro: 'Falha na validação dos campos.'})
@@ -47,6 +49,8 @@ class EntrevistaController{
 
     const resp = await Entrevista.create({
       rua,
+      bairro,
+      cep,
       numeroCasa,
       anonimo,
       nomeEntrevistado,

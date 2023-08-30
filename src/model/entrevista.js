@@ -3,6 +3,8 @@ const Schema = mongoose.Schema
 
 const EntrevistaModel = new Schema({
   rua: String,
+  bairro: String,
+  cep: String,
   numeroCasa: String,
   anonimo: Boolean,
   nomeEntrevistado: String,
