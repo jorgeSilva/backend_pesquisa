@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const server =  express()
+require('dotenv').config()
 
 server.use(cors())
 server.use(express.json())
@@ -12,6 +13,7 @@ const perguntaRoute = require('./routes/perguntaRoute')
 const respostaRoute = require('./routes/respostaRoute')
 const entrevistaRoute = require('./routes/entrevistaRoute')
 
+const PORT = process.env.PORT
 
 server.use(admRoute)
 server.use(candidatoRoute)
@@ -21,6 +23,6 @@ server.use(respostaRoute)
 server.use(entrevistaRoute)
 
 
-server.listen(3333, () => {
+server.listen(PORT, () => {
   console.log('SERVIDOR FUNCIONANDO!');
 })
