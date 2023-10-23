@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const RespostasModel = new Schema({
+  type: String,
   resposta0: String,
   resposta1: String,
   resposta2: String,

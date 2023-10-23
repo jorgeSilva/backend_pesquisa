@@ -16,11 +16,11 @@ class RespostaController {
     }
 
     const schema = Yup.object().shape({
-      resposta0: Yup.string().required(),
       fkPergunta: Yup.string().required()
     })
 
     const {
+      type,
       resposta0,
       resposta1,
       resposta2,
@@ -47,6 +47,7 @@ class RespostaController {
     }
 
     const resp = await Resposta.create({
+      type,
       resposta0,
       resposta1,
       resposta2,
