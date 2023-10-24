@@ -172,6 +172,71 @@ class EntrevistaController{
     .catch(e => res.status(400).json(e))
   }
 
+  async referentePerguntaExpontanea(req, res){
+    const { fkCandidato, pergunta, resposta } = req.params
+
+    const candidatoExist = await Candidato.findOne({
+      cpf: {'$eq': fkCandidato}
+    })
+
+    if(!candidatoExist){
+      return res.status(400).json({error: 'Candidato não encontrado.'})
+    }
+
+    const perguntaExist = await Pergunta.findById(pergunta)
+
+    if(!perguntaExist){
+      return res.status(400).json({error: 'Pergunta não encontrada.'})
+    }
+
+    const expontanea = await Resposta.find({
+      fkPergunta:{'$eq': perguntaExist},
+      type: 'expontanea'
+    })
+
+    if(expontanea){
+      await Entrevista.find({
+        fkPergunta:{'$eq': perguntaExist},
+        fkCandidato: {'$eq': candidatoExist}
+      }).then(r => res.status(200).json(r))
+    }else{
+      res.status(400).json({error: 'Nada foi encontrado'})
+    }
+  }
+
+  async referentePerguntaRespostaExpontanea(req, res){
+    const { fkCandidato, pergunta, resposta } = req.params
+
+    const candidatoExist = await Candidato.findOne({
+      cpf: {'$eq': fkCandidato}
+    })
+
+    if(!candidatoExist){
+      return res.status(400).json({error: 'Candidato não encontrado.'})
+    }
+
+    const perguntaExist = await Pergunta.findById(pergunta)
+
+    if(!perguntaExist){
+      return res.status(400).json({error: 'Pergunta não encontrada.'})
+    }
+
+    const expontanea = await Resposta.find({
+      fkPergunta:{'$eq': perguntaExist},
+      type: 'expontanea'
+    })
+
+    if(expontanea){
+      await Entrevista.find({
+        fkPergunta:{'$eq': perguntaExist},
+        fkCandidato: {'$eq': candidatoExist},
+        resposta: {'$eq':resposta}
+      }).then(r => res.status(200).json(r))
+    }else{
+      res.status(400).json({error: 'Nada foi encontrado'})
+    }
+  }
+
   async byCepBairro(req, res){
     const { _id, cep, bairro } = req.params
 

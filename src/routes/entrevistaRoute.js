@@ -12,6 +12,11 @@ entrevistaRoute.get('/entrevista/entrevistado/:fkCandidato', EntrevistaControlle
 
 entrevistaRoute.get('/entrevista/resposta/:fkCandidato/:pergunta/:resposta', EntrevistaController.referentePerguntaResposta)
 
+entrevistaRoute.get('/entrevista/resposta/:fkCandidato/:pergunta', EntrevistaController.referentePerguntaExpontanea)
+
+entrevistaRoute.get('/entrevista/resposta/:fkCandidato/:pergunta/:resposta', EntrevistaController.referentePerguntaRespostaExpontanea)
+
+
 entrevistaRoute.get('/entrevista/:_id/:bairro/:cep', EntrevistaController.byCepBairro)
 
 module.exports = entrevistaRoute
