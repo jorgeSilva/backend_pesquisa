@@ -198,7 +198,8 @@ class EntrevistaController{
       await Entrevista.find({
         fkPergunta:{'$eq': perguntaExist},
         fkCandidato: {'$eq': candidatoExist}
-      }).then(r => res.status(200).json(r))
+      }).populate('fkPergunta')
+      .then(r => res.status(200).json(r))
     }else{
       res.status(400).json({error: 'Nada foi encontrado'})
     }
