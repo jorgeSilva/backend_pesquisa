@@ -49,7 +49,8 @@ class PerguntaController {
     
     await Pergunta.find({
       fkCandidato:{'$eq':candidatoExist}
-    }).then(r => res.status(200).json(r)).catch(error => res.status(400).json(error))
+    }).then(r => res.status(200).json(r))
+    .catch(error => res.status(400).json(error))
   }
 }
 
